@@ -1,37 +1,31 @@
 import React, { useState } from 'react';
+import InputForm from '@/components/InputForm';
+import { TaskList } from '@/components/TaskList';
 
-interface Todo {
+export interface Task {
   id: number;
   text: string;
   completed: boolean;
 }
 
-const PLACEHOLDER_TEXT = "Enter new todo here";
 
 export default function App() {
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const [inputValue, setInputValue] = useState('');
+  const [tasks, setTasks] = useState<Task[]>([]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
+  const handleAdd = (text: string) => {
+    if (text.trim() === '') return;
 
-  const addTodo = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (inputValue.trim() === '') return;
-
-    const newTodo: Todo = {
+    const newTodo: Task = {
       id: Date.now(),
-      text: inputValue,
+      text: text,
       completed: false,
     };
 
-    setTodos([...todos, newTodo]);
-    setInputValue('');
+    setTasks([...tasks, newTodo]);
   };
 
-  const toggleTodo = (id: number) => {
-    setTodos(prevTodos =>
+  const handleToggle = (id: number) => {
+    setTasks(prevTodos =>
       prevTodos.map((todo) => {
           if (todo.id === id) {
             return { ...todo, completed: !todo.completed };
@@ -44,39 +38,15 @@ export default function App() {
     );
   };
 
-  const removeTodo = (id: number) => {
-    setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
+  const handleRemove = (id: number) => {
+    setTasks(prevTodos => prevTodos.filter(todo => todo.id !== id));
   };
 
   return (
     <div>
       <h1 className="title">Todo List</h1>
-      <form className="form" onSubmit={addTodo}>
-        {/*<label htmlFor="todoInput">New Todo</label>*/}
-        <input id="todoInput"
-               type="text"
-               placeholder={PLACEHOLDER_TEXT}
-               value={inputValue}
-               onChange={handleInputChange}/>
-        <button className="add-button button" type="submit">Add Todo</button>
-      </form>
-      <ul className="todo-list">
-        {todos.map(todo => (
-          <li className="todo-item" key={todo.id}>
-            <input
-              type="checkbox"
-              checked={todo.completed}
-              onChange={() => toggleTodo(todo.id)}
-            />
-            <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
-                            {todo.text}
-                        </span>
-            <button className="remove-button button"
-                    onClick={() => removeTodo(todo.id)}>Remove
-            </button>
-          </li>
-        ))}
-      </ul>
+      <InputForm onAdd={handleAdd}/>
+      <TaskList tasks={tasks} onToggle={handleToggle} onRemove={handleRemove}/>
     </div>
   );
 };
