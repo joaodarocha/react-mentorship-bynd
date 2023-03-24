@@ -1,0 +1,19 @@
+.title {
+    text-align: center;
+}
+
+.form {
+    text-align: center;
+}
+
+.button {
+    margin-left: 10px;
+}
+
+.todo-list {
+}
+
+.todo-item::marker {
+    color: transparent;
+    padding-bottom: 5px;
+}
