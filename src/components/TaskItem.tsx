@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { FC } from 'react';
+import { Task } from '@/pages/todoapp/[id]';
 
-export default function TaskItem(
-  {
+interface TaskItemProps {
+
+  task: Task;
+  onToggle: (id: number) => void;
+  onRemove: (id: number) => void;
+}
+export const TaskItem: FC<TaskItemProps> = ({
     task,
     onToggle,
     onRemove
-  }) {
+  }) => {
   return (
     <li className="todo-item">
       <input

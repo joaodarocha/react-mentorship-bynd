@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 
 const PLACEHOLDER_TEXT = "Enter new todo here";
-export default function InputForm({ onAdd }) {
+
+interface InputFormProps {
+  onAdd: (id: string) => void
+}
+export const InputForm: FC<InputFormProps> = ({ onAdd }) => {
 
   const [inputValue, setInputValue] = useState('');
 
