@@ -5,6 +5,7 @@ const PLACEHOLDER_TEXT = "Enter new todo here";
 interface InputFormProps {
   onAdd: (id: string) => void
 }
+
 export const InputForm: FC<InputFormProps> = ({ onAdd }) => {
 
   const [inputValue, setInputValue] = useState('');
@@ -26,7 +27,8 @@ export const InputForm: FC<InputFormProps> = ({ onAdd }) => {
              placeholder={PLACEHOLDER_TEXT}
              value={inputValue}
              onChange={handleInputChange}/>
-      <button className="add-button button" type="submit">Add Todo</button>
+
+      <button className="add-button button" type="submit">➕ Add Todo</button>
     </form>
   );
 }

@@ -8,6 +8,10 @@ body, html {
     font-size: 18px;
 }
 
+body {
+    background-color: rgba(237, 237, 237, 0.78);
+}
+
 * {
     box-sizing: border-box
 }

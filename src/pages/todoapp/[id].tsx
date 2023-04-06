@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { TaskItem } from '@/components/TaskItem';
 import { InputForm } from '@/components/InputForm';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-
+import { TodoappContext } from '@/context/Todoapp.context';
 
 export interface Task {
   id: number;
@@ -13,69 +13,40 @@ export interface Task {
 
 export default function TaskList() {
   const router = useRouter();
-  const { id } = router.query;
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const todoListId = Number(router.query.id || 0);
+  const context = useContext(TodoappContext);
 
-  useEffect(() => {
-    if (id) {
-      const tasksAsString = window.localStorage.getItem(id.toString());
-      if (tasksAsString) {
-        const tasksFromLocalStorage = JSON.parse(tasksAsString);
-
-        console.log(tasksFromLocalStorage)
-        if (tasksFromLocalStorage) {
-          setTasks(tasksFromLocalStorage.tasks);
-        }
-      }
-    }
-  }, [])
-
-  useEffect(() => {
-    console.log('tasks changed');
-    console.log('New tasks:', JSON.stringify(tasks));
-    if (id) {
-      window.localStorage.setItem(id.toString(), JSON.stringify({ id: id, tasks: tasks }))
-    }
-  }, [tasks])
+  const todoList = useMemo(() => {
+    return context.getTodoList(todoListId);
+  }, [todoListId, context]);
 
   const handleAdd = (text: string) => {
     if (text.trim() === '') return;
 
-    const newTodo: Task = {
+    const newTask: Task = {
       id: Date.now(),
       text: text,
       completed: false,
     };
-
-    console.log('Old tasks:', JSON.stringify(tasks));
-    setTasks([...tasks, newTodo]);
+    context.addTask(todoListId, newTask);
   };
 
-  const handleToggle = (id: number) => {
-    setTasks(prevTodos =>
-      prevTodos.map((todo) => {
-          if (todo.id === id) {
-            return { ...todo, completed: !todo.completed };
-          }
-          else {
-            return todo;
-          }
-        }
-      ),
-    );
+  const handleToggle = (task: Task) => {
+    task.completed = !task.completed;
+    context.updateTask(todoListId, task);
   };
 
-  const handleRemove = (id: number) => {
-    setTasks(prevTodos => prevTodos.filter(todo => todo.id !== id));
+  const handleRemove = (taskId: number) => {
+    context.removeTask(todoListId, taskId);
   };
 
   return (
-    <div>
+    <div className="container">
       <Link href="/todoapp">← Back to home</Link>
-      <h1 className="title">Todo List</h1>
+      <h1 className="title">Todo List 🗒️</h1>
       <InputForm onAdd={handleAdd}/>
       <ul className="todo-list">
-        {tasks.map((task: Task) => (
+        {todoList?.tasks.map((task: Task) => (
           <TaskItem
             key={task.id}
             task={task}

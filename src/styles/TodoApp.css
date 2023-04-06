@@ -1,4 +1,12 @@
+.container {
+    margin: 20px 20%;
+    padding: 20px 40px;
+    background-color: white;
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+}
+
 .title {
+    color: darkgreen;
     text-align: center;
 }
 
@@ -9,6 +17,20 @@
 .button {
     margin-left: 10px;
 }
+
+.create-todo-button {
+    display: block;
+    margin: auto;
+}
+
+.remove-button {
+    text-align: end;
+    /*display: none;*/
+}
+
+/*.todo-item:hover > .remove-button {*/
+/*    display: inline-block;*/
+/*}*/
 
 .todo-list {
 }
