@@ -20,7 +20,7 @@ export default function TodoApp() {
   }
 
   return (
-    <div className="container">
+    <div>
       <Link href="/">← Back to home</Link>
       <h1 className="title">Welcome to the TodoApp!</h1>
       <button className="create-todo-button button" onClick={createTodoList}>Create

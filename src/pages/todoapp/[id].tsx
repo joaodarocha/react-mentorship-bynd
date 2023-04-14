@@ -41,7 +41,7 @@ export default function TaskList() {
   };
 
   return (
-    <div className="container">
+    <div>
       <Link href="/todoapp">← Back to home</Link>
       <h1 className="title">Todo List 🗒️</h1>
       <InputForm onAdd={handleAdd}/>

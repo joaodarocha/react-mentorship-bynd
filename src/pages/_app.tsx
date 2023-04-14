@@ -47,13 +47,14 @@ export default function App({ Component, pageProps }: AppProps) {
         tasks: []
       }
       setTodoLists([...todoLists, newTodoList]);
-
     }
   };
 
   return (
     <TodoappContext.Provider value={contextValue}>
-      <Component {...pageProps} />
+      <div className="container">
+        <Component {...pageProps} />
+      </div>
     </TodoappContext.Provider>
   )
 }
