@@ -1,41 +1,16 @@
-import React, { useContext } from 'react';
-import Link from 'next/link';
-import { Task } from '@/pages/todoapp/[id]';
-import { TodoappContext, TodoAppContextType } from '@/context/Todoapp.context';
+import React from 'react';
+import { TodoAppPage, TodoAppPageProps } from '@/components/pages/TodoAppPage';
+import { GetStaticProps } from 'next';
+import { getAllTodoLists } from '@/utils/api';
 
-export interface TodoList {
-  id: number,
-  tasks: Task[];
-}
+export default TodoAppPage;
 
-export default function TodoApp() {
-  const context = useContext<TodoAppContextType>(TodoappContext);
+export const getStaticProps: GetStaticProps<TodoAppPageProps> = async () => {
+  const todoLists = await getAllTodoLists();
 
-  const createTodoList = () => {
-    context.createTodoList();
+  return {
+    props: {
+      initialTodoLists: todoLists
+    }
   }
-
-  const removeTodoList = (id: number) => {
-    context.removeTodoList(id);
-  }
-
-  return (
-    <div>
-      <Link href="/">← Back to home</Link>
-      <h1 className="title">Welcome to the TodoApp!</h1>
-      <button className="create-todo-button button" onClick={createTodoList}>Create
-        TodoList
-      </button>
-      <ul className="todo-app">
-        {context.todoLists.map((todoList: TodoList) => (
-          <div key={todoList.id}>
-            <Link href={'/todoapp/' + todoList.id}>TodoList {todoList.id}</Link>
-            <button className="button" onClick={() => removeTodoList(todoList.id)}>
-              🗑️ Delete
-            </button>
-          </div>
-        ))}
-      </ul>
-    </div>
-  );
 }
