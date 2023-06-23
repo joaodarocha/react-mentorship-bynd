@@ -6,9 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "npx force-resolutions"
   },
   "dependencies": {
+    "@bynd-ui-library/react": "^1.1.0",
+    "@fontsource/lato": "^5.0.3",
+    "@fontsource/material-icons": "^5.0.3",
     "@types/node": "18.15.5",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
@@ -18,5 +22,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "5.0.2"
+  },
+  "resolutions": {
+    "semver": ">7.5.2"
   }
 }
