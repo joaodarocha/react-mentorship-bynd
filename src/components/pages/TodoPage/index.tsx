@@ -27,16 +27,22 @@ export const TodoPage: NextPage<TodoPageProps> = (
 
   const handleAdd = async (text: string) => {
     createTask(todoList.id, text)
-    .then(async () => {
-      setTasks(await getTasks(todoList.id));
+    .then((newTask) => {
+      setTasks([...tasks, newTask]);
     });
   };
 
   const handleToggle = (task: Task) => {
     task.completed = !task.completed;
     toggleTask(todoList.id, task)
-    .then(async () => {
-      setTasks(await getTasks(todoList.id));
+    .then((updatedTask) => {
+      setTasks(tasks.map(savedTask => {
+          if (savedTask.id === updatedTask.id) {
+            return updatedTask;
+          }
+          return savedTask;
+        }
+      ));
     });
   };
 

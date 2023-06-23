@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { NextPage } from 'next';
-import { createTodoList, deleteTodoList, getAllTodoLists } from '@/utils/api';
+import { createTodoList, deleteTodoList } from '@/utils/api';
 import { Task } from '@/components/pages/TodoPage';
 
 export type TodoAppPageProps = {
@@ -24,15 +24,15 @@ export const TodoAppPage: NextPage<TodoAppPageProps> = (
 
   const handleCreateTodoList = async () => {
     createTodoList()
-    .then(async () => {
-      setTodoLists(await getAllTodoLists());
+    .then((newTodoList) => {
+      setTodoLists([...todoLists, newTodoList]);
     })
   }
 
   const handleRemoveTodoList = async (id: number) => {
     deleteTodoList(id)
-    .then(async () => {
-      setTodoLists(await getAllTodoLists());
+    .then(() => {
+      setTodoLists(todoLists.filter(todolist => todolist.id === id));
     });
   }
 
